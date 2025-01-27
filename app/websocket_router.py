@@ -1,7 +1,6 @@
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 from websocket_connection_manager import ConnectionManager
 from consumer import consumer_manager
-import asyncio
 
 websocket_router = APIRouter()
 
@@ -46,9 +45,9 @@ async def websocket_endpoint(websocket: WebSocket):
             print("client connected")
             await websocket.send_text(f"Client connect on consumer")
             # Mantém a conexão aberta
-            # await websocket.receive_text()
-            # Mantém a conexão aberta mas não espera mensagens do front
-            await asyncio.sleep(10)
+            await websocket.receive_text()
+            # Mantém a conexão aberta, mas não espera mensagens do front
+            #await asyncio.sleep(10)
     except WebSocketDisconnect:
         manager.disconnect(websocket)
         print("Client disconnected")
